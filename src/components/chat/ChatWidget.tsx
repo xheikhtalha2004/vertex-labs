@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, FormEvent } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { MessageCircle, X, Send, Bot, User, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
