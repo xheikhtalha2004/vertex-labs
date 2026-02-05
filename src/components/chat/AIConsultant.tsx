@@ -128,7 +128,7 @@ const AIConsultant: React.FC = () => {
                                     const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '923135229867';
                                     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi! I am interested in your engineering services')}`, '_blank');
                                 }}
-                                className="px-2.5 py-1 text-[11px] sm:text-xs rounded-full bg-white/15 hover:bg-white/25 transition-colors flex items-center gap-1.5"
+                                className="px-3 py-1 text-[11px] sm:text-xs rounded-full bg-[#25D366] hover:bg-[#1EBE5D] text-white transition-colors flex items-center gap-1.5 shadow-[0_6px_16px_rgba(37,211,102,0.35)]"
                                 title="Chat on WhatsApp"
                             >
                                 <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
@@ -149,7 +149,12 @@ const AIConsultant: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 overscroll-contain pointer-events-auto">
+                    <div
+                        className="flex-1 overflow-y-auto px-4 py-4 space-y-3 overscroll-contain pointer-events-auto"
+                        onWheel={(event) => {
+                            event.stopPropagation();
+                        }}
+                    >
                         {messages.map((msg, i) => (
                             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div
