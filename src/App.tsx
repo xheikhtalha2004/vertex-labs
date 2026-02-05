@@ -14,6 +14,8 @@ import './App.css';
 // DOM components
 import ProcessSection from './components/dom/ProcessSection';
 import ServicesSection from './components/dom/ServicesSection';
+import ContactForm from './components/dom/ContactForm';
+import AIConsultant from './components/chat/AIConsultant';
 
 // Canvas components
 import {
@@ -436,15 +438,7 @@ function App() {
                   High-fidelity CAD, computational validation, and rapid prototyping for B2B manufacturers who need to ship.
                 </p>
 
-                <div className="flex flex-wrap gap-4">
-                  <button className="hero-cta btn-primary flex items-center gap-2">
-                    Initialize Project
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                  <button className="hero-cta btn-outline">
-                    View Case Studies
-                  </button>
-                </div>
+                {/* Buttons removed - non-functional */}
               </div>
 
               {/* 3D Canvas */}
@@ -731,72 +725,22 @@ function App() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-[#A6AFBF]">
                     <Mail className="w-5 h-5 text-[#4F6DF5]" />
-                    <span>contact@vertexlabs.engineering</span>
+                    <span>xheikhtalha.yasin2004@gmail.com</span>
                   </div>
                   <div className="flex items-center gap-3 text-[#A6AFBF]">
                     <Phone className="w-5 h-5 text-[#4F6DF5]" />
-                    <span>+1 (555) 123-4567</span>
+                    <span>+92 313 5229867</span>
                   </div>
                   <div className="flex items-center gap-3 text-[#A6AFBF]">
                     <MapPin className="w-5 h-5 text-[#4F6DF5]" />
-                    <span>San Francisco, CA</span>
+                    <span>Pakistan</span>
                   </div>
                 </div>
               </div>
 
               {/* Right: Form */}
               <div className="reveal-item glass-card p-8">
-                <div className="space-y-5">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm text-[#A6AFBF] mb-2">First Name *</label>
-                      <input
-                        type="text"
-                        className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-sm
-                                   focus:border-[#4F6DF5]/50 focus:outline-none transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-[#A6AFBF] mb-2">Last Name *</label>
-                      <input
-                        type="text"
-                        className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-sm
-                                   focus:border-[#4F6DF5]/50 focus:outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-[#A6AFBF] mb-2">Email Address *</label>
-                    <input
-                      type="email"
-                      className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-sm
-                                 focus:border-[#4F6DF5]/50 focus:outline-none transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-[#A6AFBF] mb-2">Technical Scope (Minimum 20 Words) *</label>
-                    <textarea
-                      rows={5}
-                      onChange={(e) => setWordCount(e.target.value.split(/\s+/).filter(w => w.length > 0).length)}
-                      className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-sm resize-none
-                                 focus:border-[#4F6DF5]/50 focus:outline-none transition-colors"
-                    />
-                    <div className="text-right text-xs text-[#A6AFBF]/60 mt-1">
-                      Word count: {wordCount}
-                    </div>
-                  </div>
-
-                  <button className="btn-primary w-full flex items-center justify-center gap-2">
-                    Execute Submission
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-
-                  <p className="text-center text-xs text-[#A6AFBF]/60">
-                    End-to-End TLS 1.3 Encryption • Response SLA: 24hrs
-                  </p>
-                </div>
+                <ContactForm />
               </div>
             </div>
           </div>
@@ -814,11 +758,9 @@ function App() {
               </div>
 
               <div className="flex flex-wrap justify-center gap-6 mb-6">
-                {['Services', 'Portfolio', 'Contact', 'About'].map((link) => (
-                  <a key={link} href="#" className="text-sm text-[#A6AFBF] hover:text-white transition-colors">
-                    {link}
-                  </a>
-                ))}
+                <a href="#services" className="text-sm text-[#A6AFBF] hover:text-white transition-colors">Services</a>
+                <a href="#archive" className="text-sm text-[#A6AFBF] hover:text-white transition-colors">Portfolio</a>
+                <a href="#contact" className="text-sm text-[#A6AFBF] hover:text-white transition-colors">Contact</a>
               </div>
 
               <p className="text-sm text-[#A6AFBF]/60">
@@ -839,6 +781,9 @@ function App() {
             </div>
           </div>
         </footer>
+
+        {/* AI Chatbot */}
+        <AIConsultant />
       </div>
     </LenisProvider>
   );
