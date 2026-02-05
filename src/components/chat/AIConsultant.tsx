@@ -109,7 +109,7 @@ const AIConsultant: React.FC = () => {
             {/* Floating Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[999] w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-[#4F6DF5] to-[#7B8FF7] rounded-full flex items-center justify-center shadow-2xl shadow-[#4F6DF5]/50 hover:scale-110 transition-transform duration-300"
+                className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[998] w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-[#4F6DF5] to-[#7B8FF7] rounded-full flex items-center justify-center shadow-2xl shadow-[#4F6DF5]/50 hover:scale-110 transition-transform duration-300"
                 aria-label="Toggle AI Assistant"
             >
                 <svg className="w-7 h-7 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +123,7 @@ const AIConsultant: React.FC = () => {
 
             {/* Chat Window */}
             {isOpen && (
-                <div className="fixed bottom-0 sm:bottom-24 right-0 sm:right-6 z-[999] w-full sm:w-auto sm:max-w-md h-[100vh] sm:h-[600px] flex flex-col bg-[#0E1118]/95 backdrop-blur-xl overflow-hidden border-0 sm:border border-[#A6AFBF]/20 shadow-2xl sm:rounded-3xl">
+                <div className="fixed bottom-0 sm:bottom-24 right-0 sm:right-6 z-[998] w-full sm:w-auto sm:max-w-md h-[100vh] sm:h-[600px] flex flex-col bg-[#0E1118]/95 backdrop-blur-xl overflow-hidden border-0 sm:border border-[#A6AFBF]/20 shadow-2xl sm:rounded-3xl">
                     {/* Header */}
                     <div className="p-4 bg-gradient-to-r from-[#4F6DF5] to-[#7B8FF7] flex items-center justify-between text-white">
                         <div className="flex items-center space-x-3">

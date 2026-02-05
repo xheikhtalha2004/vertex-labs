@@ -48,7 +48,7 @@ export default function ProcessSection() {
 
     return (
         <section ref={sectionRef} id="process" className="relative py-24 z-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-8">
+            <div className="max-w-7xl mx-auto px-6 sm:px-8">
                 <div className="flex flex-col lg:flex-row justify-between items-start mb-16 gap-8">
                     <div className="max-w-2xl">
                         <div className="inline-block mb-6">

@@ -59,7 +59,7 @@ export default function ServicesSection() {
 
             <div className="relative z-10 w-full h-full flex flex-col items-center">
                 {/* Title Section */}
-                <div className="text-center mb-10 max-w-3xl mx-auto px-4 sm:px-8">
+                <div className="text-center mb-10 max-w-3xl mx-auto px-6 sm:px-8">
                     <div className="services-title-anim inline-block mb-6">
                         <span className="font-mono text-xs font-bold text-[#4F6DF5] uppercase tracking-widest bg-[#4F6DF5]/10 px-4 py-2 rounded-full border border-[#4F6DF5]/20">
                             Capabilities
@@ -74,7 +74,7 @@ export default function ServicesSection() {
                 </div>
 
                 {/* Mobile Services Grid (visible on small screens) */}
-                <div className="md:hidden w-full px-4 mb-8">
+                <div className="md:hidden w-full px-6 mb-8">
                     <div className="grid grid-cols-2 gap-4">
                         {SERVICES.map((service) => {
                             const Icon = ICONS[service.id] || Box;
