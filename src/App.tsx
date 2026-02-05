@@ -4,10 +4,12 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-Box, Target, DollarSign, Zap,
+import {
+  Box, Target, DollarSign, Zap,
   FlaskConical, Layers,
   Mail, Phone, MapPin,
   Wind, Cpu, Code, Hexagon, Database, Component, Workflow, Activity
+} from 'lucide-react';
 import './App.css';
 
 // DOM components
