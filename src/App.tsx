@@ -182,7 +182,7 @@ function App() {
   // const servicesRef = useRef<HTMLDivElement>(null); // Removed - handled internally
   const archiveRef = useRef<HTMLDivElement>(null);
   const metricsRef = useRef<HTMLDivElement>(null);
-  // const stackRef = useRef<HTMLDivElement>(null); // Removed
+  const stackRef = useRef<HTMLDivElement>(null);
 
   const prefersReducedMotion = useReducedMotion();
 
@@ -670,7 +670,7 @@ function App() {
         <section ref={stackRef} className="relative py-24 z-[70]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(79,109,245,0.06),transparent_60%)]" />
 
-          <div className="max-w-7xl mx-auto px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8">
             {/* Title */}
             <div className="stack-title text-center mb-16">
               <span className="font-mono text-xs font-bold text-[#4F6DF5] uppercase tracking-widest bg-[#4F6DF5]/10 px-4 py-2 rounded-full border border-[#4F6DF5]/20 inline-block mb-6">
