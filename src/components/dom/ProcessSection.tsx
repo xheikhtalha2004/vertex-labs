@@ -56,7 +56,7 @@ export default function ProcessSection() {
                                 Process
                             </span>
                         </div>
-                        <h2 className="text-5xl md:text-6xl font-bold font-display leading-tight">
+                        <h2 className="text-[32px] sm:text-5xl md:text-6xl font-bold font-display leading-tight">
                             How We <span className="text-gradient">Engineer</span>
                         </h2>
                     </div>

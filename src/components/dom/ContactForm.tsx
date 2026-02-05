@@ -44,7 +44,7 @@ export default function ContactForm() {
                         type="text"
                         name="firstName"
                         required
-                        className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-sm text-white
+                        className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-base sm:text-sm text-white
                        focus:border-[#4F6DF5]/50 focus:outline-none transition-colors"
                     />
                 </div>
@@ -54,7 +54,7 @@ export default function ContactForm() {
                         type="text"
                         name="lastName"
                         required
-                        className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-sm text-white
+                        className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-base sm:text-sm text-white
                        focus:border-[#4F6DF5]/50 focus:outline-none transition-colors"
                     />
                 </div>
@@ -66,7 +66,7 @@ export default function ContactForm() {
                     type="email"
                     name="email"
                     required
-                    className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-sm text-white
+                    className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-base sm:text-sm text-white
                      focus:border-[#4F6DF5]/50 focus:outline-none transition-colors"
                 />
             </div>
@@ -78,7 +78,7 @@ export default function ContactForm() {
                     rows={5}
                     required
                     onChange={(e) => setWordCount(e.target.value.split(/\s+/).filter((w: string) => w.length > 0).length)}
-                    className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-sm text-white resize-none
+                    className="w-full bg-[#07080B] border border-[#A6AFBF]/20 rounded-lg px-4 py-3 text-base sm:text-sm text-white resize-none
                      focus:border-[#4F6DF5]/50 focus:outline-none transition-colors"
                 />
                 <div className="text-right text-xs text-[#A6AFBF]/60 mt-1">

@@ -48,7 +48,7 @@ export default function ServicesSection() {
                             Capabilities
                         </span>
                     </div>
-                    <h2 className="services-title-anim text-4xl md:text-6xl font-bold font-display text-white mb-6 leading-tight">
+                    <h2 className="services-title-anim text-[32px] sm:text-4xl md:text-6xl font-bold font-display text-white mb-6 leading-tight">
                         Integrated <span className="text-gradient">Engineering</span> Loop
                     </h2>
                     <p className="services-title-anim text-[#A6AFBF] text-lg leading-relaxed max-w-2xl mx-auto">
