@@ -165,7 +165,8 @@
   }
 
   .btn-outline {
-    @apply px-6 py-3 border border-[#4F6DF5]/50 text-[#4F6DF5] font-display font-semibold tracking-wide rounded-lg hover:bg-[#4F6DF5]/10 hover:border-[#4F6DF5] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_0_15px_rgba(79, 109, 245, 0.1)];
+    @apply px-6 py-3 border border-[#4F6DF5]/50 text-[#4F6DF5] font-display font-semibold tracking-wide rounded-lg hover:bg-[#4F6DF5]/10 hover:border-[#4F6DF5] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0;
+    box-shadow: 0 0 15px rgba(79, 109, 245, 0.1);
   }
 
   .stat-card {
@@ -173,15 +174,27 @@
   }
 
   .service-node {
-    @apply glass-card p-4 flex items-center gap-3 hover:border-[#4F6DF5]/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(79, 109, 245, 0.1)];
+    @apply glass-card p-4 flex items-center gap-3 hover:border-[#4F6DF5]/40 transition-all duration-300 hover:-translate-y-1;
+  }
+
+  .service-node:hover {
+    box-shadow: 0 10px 30px rgba(79, 109, 245, 0.1);
   }
 
   .case-card {
-    @apply glass-card overflow-hidden flex flex-col hover:border-[#4F6DF5]/30 transition-all duration-300 hover:shadow-[0_10px_40px_rgba(0, 0, 0, 0.3)];
+    @apply glass-card overflow-hidden flex flex-col hover:border-[#4F6DF5]/30 transition-all duration-300;
+  }
+
+  .case-card:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   }
 
   .tech-card {
-    @apply glass-card p-4 flex items-center justify-center gap-3 hover:border-[#4F6DF5]/40 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(79, 109, 245, 0.15)];
+    @apply glass-card p-4 flex items-center justify-center gap-3 hover:border-[#4F6DF5]/40 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02];
+  }
+
+  .tech-card:hover {
+    box-shadow: 0 0 20px rgba(79, 109, 245, 0.15);
   }
 
   .filter-chip {
