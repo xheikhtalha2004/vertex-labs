@@ -17,6 +17,7 @@ const QUICK_REPLIES = [
 const AIConsultant: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [input, setInput] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
     const [messages, setMessages] = useState<ChatMessage[]>([
         {
             role: 'assistant',
@@ -76,6 +77,7 @@ const AIConsultant: React.FC = () => {
             ]);
         } finally {
             setIsLoading(false);
+            setTimeout(() => inputRef.current?.focus(), 0);
         }
     };
 
@@ -109,7 +111,7 @@ const AIConsultant: React.FC = () => {
             </button>
 
             {isOpen && (
-                <div className="fixed right-3 left-3 sm:left-auto sm:right-6 bottom-20 sm:bottom-24 z-[997] sm:w-[420px] max-h-[calc(100vh-7rem)] flex flex-col rounded-2xl border border-white/10 bg-[#0D0F15]/95 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+                <div className="fixed right-3 left-3 sm:left-auto sm:right-6 top-20 sm:top-24 bottom-20 sm:bottom-24 z-[997] sm:w-[420px] max-h-[calc(100vh-6rem)] flex flex-col rounded-2xl border border-white/10 bg-[#0D0F15]/95 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl pointer-events-auto">
                     <div className="flex items-center justify-between px-4 py-3 rounded-t-2xl bg-gradient-to-r from-[#9AA8FF] to-[#7B8FF7] text-white">
                         <div className="flex items-center gap-3 min-w-0">
                             <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
@@ -126,11 +128,14 @@ const AIConsultant: React.FC = () => {
                                     const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '923135229867';
                                     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi! I am interested in your engineering services')}`, '_blank');
                                 }}
-                                className="px-2.5 py-1 text-[11px] rounded-full bg-white/15 hover:bg-white/25 transition-colors flex items-center gap-1"
+                                className="px-2.5 py-1 text-[11px] sm:text-xs rounded-full bg-white/15 hover:bg-white/25 transition-colors flex items-center gap-1.5"
                                 title="Chat on WhatsApp"
                             >
-                                <span className="w-2 h-2 rounded-full bg-green-400" />
-                                <span className="hidden sm:inline">WhatsApp</span>
+                                <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                                    <path d="M19.11 17.59c-.3-.15-1.77-.88-2.05-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.95 1.18-.17.2-.35.23-.65.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.47-1.76-1.64-2.06-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.22 5.08 4.52.71.31 1.26.5 1.69.64.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.12-.27-.2-.57-.35z" />
+                                    <path d="M16.02 3C8.84 3 3 8.84 3 16.02c0 2.3.6 4.55 1.75 6.54L3 29l6.64-1.74c1.93 1.05 4.1 1.6 6.38 1.6 7.18 0 13.02-5.84 13.02-13.02C29.04 8.84 23.2 3 16.02 3zm0 23.47c-2.1 0-4.15-.55-5.95-1.59l-.43-.25-3.94 1.03 1.05-3.84-.28-.44a10.92 10.92 0 0 1-1.68-5.86c0-6.06 4.93-10.99 10.99-10.99 2.93 0 5.68 1.14 7.75 3.22a10.9 10.9 0 0 1 3.23 7.77c0 6.06-4.93 10.95-11.04 10.95z" />
+                                </svg>
+                                <span>WhatsApp</span>
                             </button>
                             <button
                                 onClick={() => setIsOpen(false)}
@@ -144,7 +149,7 @@ const AIConsultant: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+                    <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 overscroll-contain pointer-events-auto">
                         {messages.map((msg, i) => (
                             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div
@@ -175,7 +180,10 @@ const AIConsultant: React.FC = () => {
                                 {QUICK_REPLIES.map((reply, i) => (
                                     <button
                                         key={i}
-                                        onClick={() => handleSend(reply.message)}
+                                        onClick={() => {
+                                            handleSend(reply.message);
+                                            setTimeout(() => inputRef.current?.focus(), 0);
+                                        }}
                                         className="px-3 py-2 text-xs rounded-full bg-[#111420] border border-white/10 text-[#C7CBD6] hover:bg-[#4F6DF5] hover:text-white hover:border-[#4F6DF5] transition-all"
                                     >
                                         {reply.label}
@@ -222,6 +230,7 @@ const AIConsultant: React.FC = () => {
                     >
                         <div className="flex items-center gap-2">
                             <input
+                                ref={inputRef}
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
