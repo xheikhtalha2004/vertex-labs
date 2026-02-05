@@ -426,7 +426,7 @@ function App() {
                   Solution Lab • Operational Since 2019
                 </p>
 
-                <h1 className="hero-headline text-[48px] md:text-[64px] lg:text-[80px] font-bold leading-[1.05] mb-6">
+                <h1 className="hero-headline text-[40px] sm:text-[48px] md:text-[64px] lg:text-[80px] font-bold leading-[1.1] mb-6">
                   Engineering<br />
                   <span className="text-gradient">Solvency</span><br />
                   at Scale.
@@ -441,7 +441,7 @@ function App() {
               </div>
 
               {/* 3D Canvas */}
-              <div className="hero-canvas relative w-full aspect-square max-w-[520px] mx-auto lg:ml-auto">
+              <div className="hero-canvas relative w-full aspect-square max-w-[320px] sm:max-w-[400px] lg:max-w-[520px] mx-auto lg:ml-auto mt-8 lg:mt-0 pointer-events-none lg:pointer-events-auto">
                 <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
                   <ambientLight intensity={0.3} />
                   <pointLight position={[10, 10, 10]} intensity={1} color="#4F6DF5" />
@@ -454,14 +454,14 @@ function App() {
             </div>
 
             {/* Stats Row */}
-            <div className="hero-stats grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+            <div className="hero-stats grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-12 lg:mt-8">
               {[
                 { icon: Box, value: '247+', label: 'Projects Shipped' },
                 { icon: Target, value: '99.70%', label: 'Analysis Precision' },
                 { icon: DollarSign, value: '$2.4M+', label: 'Cost Avoided' },
                 { icon: Zap, value: '24/7', label: 'Lab Access' }
               ].map((stat, i) => (
-                <div key={i} className="stat-card-item stat-card">
+                <div key={i} className="stat-card-item stat-card p-3 sm:p-4">
                   <stat.icon className="w-5 h-5 text-[#4F6DF5]" />
                   <span className="text-2xl font-bold">{stat.value}</span>
                   <span className="text-xs text-[#A6AFBF] font-mono uppercase tracking-wider">{stat.label}</span>
@@ -526,7 +526,7 @@ function App() {
               <span className="font-mono text-xs font-bold text-[#4F6DF5] uppercase tracking-widest bg-[#4F6DF5]/10 px-4 py-2 rounded-full border border-[#4F6DF5]/20 inline-block mb-6">
                 Portfolio
               </span>
-              <h2 className="text-[40px] lg:text-[52px] font-bold mb-4">Laboratory Archive</h2>
+              <h2 className="text-[32px] sm:text-[40px] lg:text-[52px] font-bold mb-4">Laboratory Archive</h2>
               <p className="text-[#A6AFBF] text-lg mb-2">Validated Case Studies</p>
               <p className="text-sm text-[#A6AFBF]/70 max-w-xl">
                 STAR-format technical documentation. Situation, Task, Action, Result—backed by data.
@@ -599,7 +599,7 @@ function App() {
                 <span className="font-mono text-xs font-bold text-[#4F6DF5] uppercase tracking-widest bg-[#4F6DF5]/10 px-4 py-2 rounded-full border border-[#4F6DF5]/20 inline-block mb-6">
                   Performance
                 </span>
-                <h2 className="text-[40px] lg:text-[52px] font-bold mb-4">Laboratory Metrics</h2>
+                <h2 className="text-[32px] sm:text-[40px] lg:text-[52px] font-bold mb-4">Laboratory Metrics</h2>
                 <p className="text-[#A6AFBF] text-lg">Engineering at Scale</p>
                 <p className="text-sm text-[#A6AFBF]/70 mt-2">Real-time data from our solution engineering operations</p>
               </div>
@@ -685,7 +685,7 @@ function App() {
               <span className="font-mono text-xs font-bold text-[#4F6DF5] uppercase tracking-widest bg-[#4F6DF5]/10 px-4 py-2 rounded-full border border-[#4F6DF5]/20 inline-block mb-6">
                 Tech Stack
               </span>
-              <h2 className="text-[40px] lg:text-[52px] font-bold mb-4">Engineering Arsenal</h2>
+              <h2 className="text-[32px] sm:text-[40px] lg:text-[52px] font-bold mb-4">Engineering Arsenal</h2>
               <p className="text-[#A6AFBF] text-lg max-w-2xl mx-auto">
                 Enterprise-grade solvers and CAD platforms selected for accuracy, performance, and industry validation
               </p>
@@ -716,7 +716,7 @@ function App() {
               {/* Left: Info */}
               <div className="reveal-item">
                 <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#4F6DF5] mb-4">Contact Interface</p>
-                <h2 className="text-[40px] lg:text-[52px] font-bold mb-4">Initialize<br />Technical Brief</h2>
+                <h2 className="text-[32px] sm:text-[40px] lg:text-[52px] font-bold mb-4">Initialize<br />Technical Brief</h2>
                 <p className="text-[#A6AFBF] mb-8">
                   Submit project parameters for computational feasibility analysis
                 </p>

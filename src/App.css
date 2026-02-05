@@ -28,6 +28,7 @@ canvas {
 /* Smooth section transitions */
 section {
   will-change: opacity, transform;
+  touch-action: manipulation;
 }
 
 /* Card hover effects */
@@ -83,21 +84,21 @@ textarea:focus {
   .hero-headline {
     font-size: 36px !important;
   }
-  
+
   .hero-canvas {
     max-width: 280px !important;
     margin: 0 auto 2rem auto !important;
   }
-  
+
   .services-core {
     width: 140px !important;
     height: 140px !important;
   }
-  
+
   .stat-card-item {
     padding: 0.75rem;
   }
-  
+
   .stat-card-item span.text-2xl {
     font-size: 1.25rem;
   }
@@ -105,6 +106,7 @@ textarea:focus {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -112,7 +114,7 @@ textarea:focus {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   canvas {
     animation: none !important;
   }
