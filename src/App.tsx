@@ -99,18 +99,21 @@ const techStack = [
 
 const Navbar = () => {
   const { lenis } = useLenis();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
     e.preventDefault();
+    setMobileMenuOpen(false);
     if (lenis) {
       lenis.scrollTo(target, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
     }
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[999] px-8 py-6 flex items-center justify-between nav-glass transition-all duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-[999] px-4 sm:px-8 py-4 sm:py-6 flex items-center justify-between nav-glass transition-all duration-300">
       <a href="#" className="flex items-center gap-2 group" onClick={(e) => {
         e.preventDefault();
+        setMobileMenuOpen(false);
         lenis?.scrollTo(0, { duration: 1.5 });
       }}>
         <div className="w-8 h-8 border-2 border-[#4F6DF5] rounded flex items-center justify-center
@@ -120,19 +123,50 @@ const Navbar = () => {
         <span className="font-semibold font-display text-lg tracking-tight">VERTEX.LABS</span>
       </a>
 
+      {/* Desktop Nav */}
       <div className="hidden md:flex items-center gap-8">
         <a href="#services" onClick={(e) => handleScroll(e, '#services')} className="text-sm font-medium text-[#A6AFBF] hover:text-white transition-colors font-display tracking-wide">Services</a>
         <a href="#archive" onClick={(e) => handleScroll(e, '#archive')} className="text-sm font-medium text-[#A6AFBF] hover:text-white transition-colors font-display tracking-wide">Archive</a>
         <a href="#contact" onClick={(e) => handleScroll(e, '#contact')} className="text-sm font-medium text-[#A6AFBF] hover:text-white transition-colors font-display tracking-wide">Contact</a>
       </div>
 
+      {/* Desktop CTA */}
       <a
         href="#contact"
         onClick={(e) => handleScroll(e, '#contact')}
-        className="btn-outline text-sm py-2 px-4 inline-block cursor-pointer font-display tracking-wide"
+        className="hidden md:inline-block btn-outline text-sm py-2 px-4 cursor-pointer font-display tracking-wide"
       >
         Start Project
       </a>
+
+      {/* Mobile Hamburger */}
+      <button
+        className="md:hidden flex flex-col gap-1.5 p-2"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+      </button>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-[#07080B]/95 backdrop-blur-xl border-b border-[#A6AFBF]/10 md:hidden">
+          <div className="flex flex-col p-6 gap-4">
+            <a href="#services" onClick={(e) => handleScroll(e, '#services')} className="text-lg font-medium text-[#A6AFBF] hover:text-white transition-colors font-display">Services</a>
+            <a href="#archive" onClick={(e) => handleScroll(e, '#archive')} className="text-lg font-medium text-[#A6AFBF] hover:text-white transition-colors font-display">Archive</a>
+            <a href="#contact" onClick={(e) => handleScroll(e, '#contact')} className="text-lg font-medium text-[#A6AFBF] hover:text-white transition-colors font-display">Contact</a>
+            <a
+              href="#contact"
+              onClick={(e) => handleScroll(e, '#contact')}
+              className="btn-primary text-center py-3 mt-2"
+            >
+              Start Project
+            </a>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
@@ -418,7 +452,7 @@ function App() {
         <section ref={heroRef} className="relative min-h-screen z-10 pt-24 pb-16">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(79,109,245,0.10),transparent_55%)]" />
 
-          <div className="max-w-7xl mx-auto px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[calc(100vh-10rem)]">
               {/* Hero Content */}
               <div className="hero-content relative z-10">
@@ -489,7 +523,7 @@ function App() {
 
         {/* Section 3: Trusted By */}
         <section className="section-flowing z-30 reveal-section">
-          <div className="max-w-6xl mx-auto px-8 py-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16">
             <p className="reveal-item font-mono text-xs uppercase tracking-[0.12em] text-[#A6AFBF] text-center mb-10">
               Trusted By Engineers At
             </p>
@@ -520,7 +554,7 @@ function App() {
         <section ref={archiveRef} id="archive" className="relative py-24 z-40">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(79,109,245,0.06),transparent_50%)]" />
 
-          <div className="max-w-7xl mx-auto px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8">
             {/* Header */}
             <div className="archive-header mb-12">
               <span className="font-mono text-xs font-bold text-[#4F6DF5] uppercase tracking-widest bg-[#4F6DF5]/10 px-4 py-2 rounded-full border border-[#4F6DF5]/20 inline-block mb-6">
@@ -592,7 +626,7 @@ function App() {
         <section ref={metricsRef} className="relative py-24 z-50">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_60%,rgba(79,109,245,0.08),transparent_55%)]" />
 
-          <div className="max-w-7xl mx-auto px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
               {/* Title */}
               <div className="metrics-title">
@@ -640,7 +674,7 @@ function App() {
 
         {/* Section 6: Validation + Testimonial */}
         <section className="section-flowing z-[60] reveal-section">
-          <div className="max-w-6xl mx-auto px-8 py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-8 py-20">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Quote */}
               <div className="reveal-item">
