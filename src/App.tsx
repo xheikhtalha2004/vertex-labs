@@ -179,10 +179,10 @@ function App() {
   const [activeFilter, setActiveFilter] = useState('All');
   const mainRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLDivElement>(null);
+  // const servicesRef = useRef<HTMLDivElement>(null); // Removed - handled internally
   const archiveRef = useRef<HTMLDivElement>(null);
   const metricsRef = useRef<HTMLDivElement>(null);
-  const stackRef = useRef<HTMLDivElement>(null);
+  // const stackRef = useRef<HTMLDivElement>(null); // Removed
 
   const prefersReducedMotion = useReducedMotion();
 
