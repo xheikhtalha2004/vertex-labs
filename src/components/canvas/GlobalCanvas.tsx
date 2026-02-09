@@ -24,8 +24,8 @@ export default function GlobalCanvas({
             className="fixed inset-0 z-[-1]"
             style={{
                 pointerEvents: 'none',
-                width: '100vw',
-                height: '100vh',
+                width: '100%',
+                height: '100%',
             }}
         >
             <Canvas

@@ -36,12 +36,16 @@
 
   html {
     scroll-behavior: auto;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   body {
     @apply bg-[#07080B] text-[#F2F5FA] antialiased;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    width: 100%;
+    position: relative;
   }
 
   h1,

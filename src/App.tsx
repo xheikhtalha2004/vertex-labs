@@ -8,7 +8,8 @@ import {
   Box, Target, DollarSign, Zap,
   FlaskConical, Layers,
   Mail, Phone, MapPin,
-  Wind, Cpu, Code, Hexagon, Component, Activity
+  Wind, Cpu, Code, Hexagon, Component, Activity,
+  Menu, X
 } from 'lucide-react';
 import './App.css';
 
@@ -103,7 +104,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[999] px-4 sm:px-8 py-4 sm:py-6 flex items-center justify-between nav-glass transition-all duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-[999] px-6 sm:px-8 py-4 sm:py-6 flex items-center justify-between nav-glass transition-all duration-300">
       <a href="#" className="flex items-center gap-2 group" onClick={(e) => {
         e.preventDefault();
         setMobileMenuOpen(false);
@@ -135,28 +136,39 @@ const Navbar = () => {
 
       {/* Mobile Hamburger */}
       <button
-        className="md:hidden flex flex-col gap-1.5 p-2"
+        className="md:hidden p-2 text-white"
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         aria-label="Toggle menu"
       >
-        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
-        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-[#07080B]/98 backdrop-blur-2xl border-b border-[#A6AFBF]/10 md:hidden animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="flex flex-col p-8 gap-6">
-            <a href="#services" onClick={(e) => handleScroll(e, '#services')} className="text-xl font-medium text-[#A6AFBF] hover:text-[#4F6DF5] transition-colors font-display border-b border-[#A6AFBF]/5 pb-4">Services</a>
-            <a href="#process" onClick={(e) => handleScroll(e, '#process')} className="text-xl font-medium text-[#A6AFBF] hover:text-[#4F6DF5] transition-colors font-display border-b border-[#A6AFBF]/5 pb-4">Process</a>
-            <a href="#archive" onClick={(e) => handleScroll(e, '#archive')} className="text-xl font-medium text-[#A6AFBF] hover:text-[#4F6DF5] transition-colors font-display border-b border-[#A6AFBF]/5 pb-4">Archive</a>
-            <a href="#contact" onClick={(e) => handleScroll(e, '#contact')} className="text-xl font-medium text-[#A6AFBF] hover:text-[#4F6DF5] transition-colors font-display border-b border-[#A6AFBF]/5 pb-4">Contact</a>
+        <div className="absolute top-full left-0 right-0 bg-[#07080B] border-b border-[#A6AFBF]/10 md:hidden animate-in fade-in slide-in-from-top-4 duration-300 z-[1001] pointer-events-auto">
+          <div className="flex flex-col p-8 gap-8 pointer-events-auto">
+            <a href="#services" onClick={(e) => { handleScroll(e, '#services'); setMobileMenuOpen(false); }} className="flex items-center gap-6 text-xl font-medium text-[#A6AFBF] hover:text-[#4F6DF5] transition-colors font-display border-b border-[#A6AFBF]/10 pb-6">
+              <Layers size={24} className="text-[#4F6DF5]" />
+              Services
+            </a>
+            <a href="#process" onClick={(e) => { handleScroll(e, '#process'); setMobileMenuOpen(false); }} className="flex items-center gap-6 text-xl font-medium text-[#A6AFBF] hover:text-[#4F6DF5] transition-colors font-display border-b border-[#A6AFBF]/10 pb-6">
+              <Activity size={24} className="text-[#4F6DF5]" />
+              Process
+            </a>
+            <a href="#archive" onClick={(e) => { handleScroll(e, '#archive'); setMobileMenuOpen(false); }} className="flex items-center gap-6 text-xl font-medium text-[#A6AFBF] hover:text-[#4F6DF5] transition-colors font-display border-b border-[#A6AFBF]/10 pb-6">
+              <Box size={24} className="text-[#4F6DF5]" />
+              Archive
+            </a>
+            <a href="#contact" onClick={(e) => { handleScroll(e, '#contact'); setMobileMenuOpen(false); }} className="flex items-center gap-6 text-xl font-medium text-[#A6AFBF] hover:text-[#4F6DF5] transition-colors font-display border-b border-[#A6AFBF]/10 pb-6">
+              <Mail size={24} className="text-[#4F6DF5]" />
+              Contact
+            </a>
             <a
               href="#contact"
-              onClick={(e) => handleScroll(e, '#contact')}
-              className="btn-primary text-center py-4 mt-2 text-lg"
+              onClick={(e) => { handleScroll(e, '#contact'); setMobileMenuOpen(false); }}
+              className="btn-primary flex items-center justify-center gap-3 py-4 mt-4 text-lg"
             >
+              <Zap size={20} />
               Start Project
             </a>
           </div>
@@ -288,7 +300,7 @@ function App() {
           end: 'top 30%',
           scrub: 1,
         },
-        x: -100,
+        x: window.innerWidth < 768 ? -20 : -100,
         opacity: 0,
         ease: 'power2.out'
       });
@@ -300,7 +312,7 @@ function App() {
           end: 'top 30%',
           scrub: 1,
         },
-        x: 100,
+        x: window.innerWidth < 768 ? 20 : 100,
         opacity: 0,
         scale: 0.98,
         ease: 'power2.out'
@@ -362,7 +374,15 @@ function App() {
 
     }, mainRef);
 
-    return () => ctx.revert();
+    // Refresh ScrollTrigger after a small delay to ensure all elements are rendered
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 1000);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(timer);
+    };
   }, [prefersReducedMotion]);
 
   // Refresh GSAP on filter change to ensure layout recalculations
@@ -404,21 +424,19 @@ function App() {
         <section ref={heroRef} className="relative min-h-screen z-10 pt-24 pb-16">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(79,109,245,0.10),transparent_55%)]" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[calc(100vh-10rem)]">
               {/* Hero Content */}
-              <div className="hero-content relative z-10">
+              <div className="hero-content relative z-10 overflow-hidden">
                 <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#A6AFBF] mb-4">
                   Solution Lab • Operational Since 2019
                 </p>
 
-                <h1 className="hero-headline text-[40px] sm:text-[48px] md:text-[64px] lg:text-[80px] font-bold leading-[1.1] mb-6">
-                  Engineering<br />
-                  <span className="text-gradient">Solvency</span><br />
-                  at Scale.
+                <h1 className="hero-headline text-[32px] sm:text-[48px] md:text-[64px] lg:text-[80px] font-bold leading-[1.1] mb-6 break-words">
+                  Engineering <span className="text-gradient">Solvency</span> at Scale.
                 </h1>
 
-                <p className="hero-sub text-[#A6AFBF] text-base lg:text-lg leading-relaxed max-w-md mb-8">
+                <p className="hero-sub text-[#A6AFBF] text-sm sm:text-base lg:text-lg leading-relaxed max-w-md mb-8">
                   We don't "make things pretty." We <span className="text-white font-medium">engineer outcomes</span>.
                   High-fidelity CAD, computational validation, and rapid prototyping for B2B manufacturers who need to ship.
                 </p>
@@ -478,7 +496,7 @@ function App() {
 
         {/* Section 3: Trusted By */}
         <section className="section-flowing z-30 reveal-section">
-          <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16">
+          <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16">
             <p className="reveal-item font-mono text-xs uppercase tracking-[0.12em] text-[#A6AFBF] text-center mb-10">
               Trusted By Engineers At
             </p>
@@ -509,7 +527,7 @@ function App() {
         <section ref={archiveRef} id="archive" className="relative py-24 z-40">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(79,109,245,0.06),transparent_50%)]" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8">
             {/* Header */}
             <div className="archive-header mb-12">
               <span className="font-mono text-xs font-bold text-[#4F6DF5] uppercase tracking-widest bg-[#4F6DF5]/10 px-4 py-2 rounded-full border border-[#4F6DF5]/20 inline-block mb-6">
@@ -581,7 +599,7 @@ function App() {
         <section ref={metricsRef} className="relative py-24 z-50">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_60%,rgba(79,109,245,0.08),transparent_55%)]" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
               {/* Title */}
               <div className="metrics-title">
@@ -629,7 +647,7 @@ function App() {
 
         {/* Section 6: Validation + Testimonial */}
         <section className="section-flowing z-[60] reveal-section">
-          <div className="max-w-6xl mx-auto px-4 sm:px-8 py-20">
+          <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Quote */}
               <div className="reveal-item">
@@ -668,7 +686,7 @@ function App() {
         <section ref={stackRef} className="relative py-24 z-[70]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(79,109,245,0.06),transparent_60%)]" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8">
             {/* Title */}
             <div className="stack-title text-center mb-16">
               <span className="font-mono text-xs font-bold text-[#4F6DF5] uppercase tracking-widest bg-[#4F6DF5]/10 px-4 py-2 rounded-full border border-[#4F6DF5]/20 inline-block mb-6">
@@ -700,7 +718,7 @@ function App() {
 
         {/* Section 8: Contact */}
         <section id="contact" className="section-flowing z-[80] reveal-section">
-          <div className="max-w-6xl mx-auto px-4 sm:px-8 py-20">
+          <div className="max-w-6xl mx-auto px-6 sm:px-8 py-20">
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Left: Info */}
               <div className="reveal-item">
@@ -736,7 +754,7 @@ function App() {
 
         {/* Section 9: Footer */}
         <footer className="section-flowing z-[90] border-t border-[#A6AFBF]/10">
-          <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16">
+          <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16">
             <div className="flex flex-col items-center text-center mb-10">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 border-2 border-[#4F6DF5] rounded flex items-center justify-center">
