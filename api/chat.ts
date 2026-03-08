@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
 COMPANY CONTACT (Use these EXACT details):
 - Phone/WhatsApp: +92 313 5229867
-- Email: xheikhtalha.yasin2004@gmail.com
+- Email: business.vertexlabs@gmail.com
 - Services: CAD Design, CFD/FEA Simulation, Rapid Prototyping, Mechatronics
 
 CRITICAL RESPONSE RULES:
