@@ -1,0 +1,319 @@
+// Vertex Labs Admin Panel — Prisma Schema
+// PostgreSQL via Supabase
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL") // Uncomment for Supabase connection pooling
+}
+
+// =====================================================
+// AUTH
+// =====================================================
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  passwordHash  String
+  role          Role      @default(EDITOR)
+  avatar        String?
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  auditLogs     AuditLog[]
+
+  @@map("users")
+}
+
+// =====================================================
+// CMS — HOMEPAGE
+// =====================================================
+
+model HomepageSettings {
+  id            String   @id @default(cuid())
+  heroHeadline  String   @default("Engineering Solvency at Scale.")
+  heroHighlight String   @default("Solvency")
+  heroSubcopy   String   @default("We don't \"make things pretty.\" We engineer outcomes.")
+  heroBadge1    String   @default("ISO 9001:2015")
+  heroBadge2    String   @default("ON-PREMISE LAB")
+  heroBadge3    String   @default("HPC CLUSTER READY")
+  stat1Value    String   @default("247+")
+  stat1Label    String   @default("Projects Shipped")
+  stat2Value    String   @default("99.70%")
+  stat2Label    String   @default("Analysis Precision")
+  stat3Value    String   @default("$2.4M+")
+  stat3Label    String   @default("Cost Avoided")
+  stat4Value    String   @default("24/7")
+  stat4Label    String   @default("Lab Access")
+  trusteeLogos  String[] @default(["MIT", "SIEMENS", "Stanford", "P&G", "Caltech", "HITACHI"])
+  updatedAt     DateTime @updatedAt
+
+  @@map("homepage_settings")
+}
+
+// =====================================================
+// CMS — SERVICES
+// =====================================================
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String?  // lucide icon name or URL
+  features    String[] @default([])
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("services")
+}
+
+// =====================================================
+// CMS — PROJECTS
+// =====================================================
+
+enum ProjectCategory {
+  CFD
+  FEA
+  THERMAL
+  MECHANICAL_DESIGN
+  ELECTRONICS
+  SOFTWARE
+  OTHER
+}
+
+model Project {
+  id          String          @id @default(cuid())
+  title       String
+  category    ProjectCategory @default(OTHER)
+  description String
+  tech        String[]        @default([])
+  imageUrl    String?
+  imageAlt    String?
+  featured    Boolean         @default(false)
+  active      Boolean         @default(true)
+  order       Int             @default(0)
+  slug        String?         @unique
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@map("projects")
+}
+
+// =====================================================
+// CMS — TESTIMONIALS
+// =====================================================
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  quote       String
+  authorName  String
+  authorRole  String?
+  authorOrg   String?
+  authorAvatar String?
+  rating      Int      @default(5)
+  active      Boolean  @default(true)
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+// =====================================================
+// CRM — LEADS
+// =====================================================
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL
+  CLOSED_WON
+  CLOSED_LOST
+}
+
+model Lead {
+  id          String     @id @default(cuid())
+  name        String
+  email       String
+  company     String?
+  phone       String?
+  projectType String?
+  message     String
+  status      LeadStatus @default(NEW)
+  notes       String?
+  source      String?    @default("contact_form")
+  assignedTo  String?    // user email
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("leads")
+}
+
+// =====================================================
+// MEDIA LIBRARY
+// =====================================================
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  OTHER
+}
+
+model Media {
+  id          String    @id @default(cuid())
+  filename    String
+  url         String
+  publicId    String    // Cloudinary public ID
+  type        MediaType @default(IMAGE)
+  mimeType    String?
+  sizeBytes   Int?
+  width       Int?
+  height      Int?
+  altText     String?
+  folder      String?
+  uploadedBy  String?
+  createdAt   DateTime  @default(now())
+
+  @@map("media")
+}
+
+// =====================================================
+// SEO
+// =====================================================
+
+model SeoMeta {
+  id          String   @id @default(cuid())
+  pageSlug    String   @unique // e.g. "home", "services", "projects"
+  pageTitle   String
+  metaTitle   String?
+  description String?
+  ogTitle     String?
+  ogDescription String?
+  ogImage     String?
+  keywords    String?
+  canonical   String?
+  noIndex     Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+
+  @@map("seo_meta")
+}
+
+// =====================================================
+// SITE SETTINGS
+// =====================================================
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  type      String   @default("string") // string | json | boolean | number
+  label     String?
+  group     String?  // general | contact | social | appearance
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+// =====================================================
+// AUDIT LOG
+// =====================================================
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  userEmail  String?
+  action     String   // CREATE | UPDATE | DELETE | LOGIN | LOGOUT
+  entity     String   // Service | Project | Lead | etc.
+  entityId   String?
+  metadata   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}
+
+// =====================================================
+// FUTURE MODULES (stubbed for forward compatibility)
+// =====================================================
+
+model CaseStudy {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  category    String?
+  summary     String?
+  content     String?  // Markdown / rich text
+  coverImage  String?
+  tech        String[] @default([])
+  published   Boolean  @default(false)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("case_studies")
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  bio         String?
+  avatar      String?
+  linkedin    String?
+  github      String?
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("team_members")
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String?  // Markdown
+  coverImage  String?
+  tags        String[] @default([])
+  published   Boolean  @default(false)
+  publishedAt DateTime?
+  authorId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("blog_posts")
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  event       String
+  page        String?
+  referrer    String?
+  userAgent   String?
+  ipAddress   String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@map("analytics_events")
+}
