@@ -72,3 +72,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { status: 200 });
+}
