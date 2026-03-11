@@ -79,6 +79,7 @@ export default function HomepagePage() {
         {loading ? (
           <div className="space-y-4">{[...Array(3)].map((_, i) => <div key={i} className="glass-card h-32 animate-pulse" />)}</div>
         ) : (
+          <>
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Hero content */}
             <div className="form-section space-y-4">
@@ -143,8 +144,7 @@ export default function HomepagePage() {
           </div>
 
           {/* Laboratory Metrics */}
-          <div className="form-section mt-6">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-4">Laboratory Metrics</h3>
+          <div className="form-section mt-6">            <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-4">Laboratory Metrics</h3>
             <p className="text-xs text-text-muted mb-4">Controls the live metrics strip shown on the public site.</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3 bg-surface-alt border border-border rounded-lg px-4 py-3">
@@ -170,6 +170,7 @@ export default function HomepagePage() {
               </div>
             </div>
           </div>
+          </>
         )}
       </div>
     </div>
