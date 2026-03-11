@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
@@ -11,6 +11,7 @@ import {
     Wind,
     CheckCircle
 } from 'lucide-react';
+import { getServices, type PublicService } from '../../lib/adminApi';
 
 const ICONS: Record<string, any> = {
     'thermal': Thermometer,
@@ -22,7 +23,7 @@ const ICONS: Record<string, any> = {
 };
 
 // Data from user request image
-const SERVICES = [
+const STATIC_SERVICES_LIST = [
     { title: 'Thermal Simulation', id: 'thermal' },
     { title: 'High-Fidelity CAD', id: 'cad' },
     { title: 'Finite Element Analysis', id: 'fea' },
@@ -31,8 +32,23 @@ const SERVICES = [
     { title: 'Design Validation', id: 'valid' },
 ];
 
+// Normalise both API and static sources to a common shape for rendering
+function normaliseServices(api: PublicService[]) {
+    if (api.length) {
+        return api.map(s => ({ id: s.id, title: s.title, iconKey: s.icon?.toLowerCase() || '' }));
+    }
+    return STATIC_SERVICES_LIST.map(s => ({ id: s.id, title: s.title, iconKey: s.id }));
+}
+
 export default function ServicesSection() {
     const sectionRef = useRef<HTMLDivElement>(null);
+    const [apiServices, setApiServices] = useState<PublicService[]>([]);
+
+    useEffect(() => {
+        getServices().then((data) => { if (data.length) setApiServices(data); });
+    }, []);
+
+    const services = normaliseServices(apiServices);
 
     // Initial animation for the title
     useEffect(() => {
@@ -76,8 +92,8 @@ export default function ServicesSection() {
                 {/* Mobile Services Grid (visible on small screens) */}
                 <div className="md:hidden w-full px-6 mb-8">
                     <div className="grid grid-cols-2 gap-4">
-                        {SERVICES.map((service) => {
-                            const Icon = ICONS[service.id] || Box;
+                        {services.map((service) => {
+                            const Icon = ICONS[service.iconKey] || Box;
                             return (
                                 <div
                                     key={service.id}
@@ -105,7 +121,7 @@ export default function ServicesSection() {
                         <SmallCrystal />
 
                         {/* Orbital Cards */}
-                        <OrbitalServices services={SERVICES} />
+                        <OrbitalServices services={services} />
 
                         <OrbitControls
                             enableZoom={false}

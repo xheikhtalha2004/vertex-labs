@@ -105,6 +105,7 @@ export interface HomepageData {
   stat3Value: string; stat3Label: string;
   stat4Value: string; stat4Label: string;
   trusteeLogos: string[];
+  activeProjectsCount?: number;
 }
 
 const STATIC_HOMEPAGE: HomepageData = {
@@ -117,6 +118,7 @@ const STATIC_HOMEPAGE: HomepageData = {
   stat3Value: '$2.4M+', stat3Label: 'Cost Avoided',
   stat4Value: '24/7', stat4Label: 'Lab Access',
   trusteeLogos: ['MIT', 'SIEMENS', 'Stanford', 'P&G', 'Caltech', 'HITACHI'],
+  activeProjectsCount: 1,
 };
 
 export async function getHomepageSettings(): Promise<HomepageData> {
@@ -150,7 +152,7 @@ export async function submitContactForm(data: ContactFormData): Promise<{ succes
   }
 
   try {
-    const res = await fetch(`${ADMIN_API_URL}/api/admin/dashboard`, {
+    const res = await fetch(`${ADMIN_API_URL}/api/public/contact`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
