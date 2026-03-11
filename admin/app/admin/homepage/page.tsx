@@ -15,6 +15,7 @@ interface HomepageData {
   stat2Value: string; stat2Label: string;
   stat3Value: string; stat3Label: string;
   stat4Value: string; stat4Label: string;
+  activeProjectsCount: number;
 }
 
 const defaultData: HomepageData = {
@@ -26,6 +27,7 @@ const defaultData: HomepageData = {
   stat2Value: '99.70%', stat2Label: 'Analysis Precision',
   stat3Value: '$2.4M+', stat3Label: 'Cost Avoided',
   stat4Value: '24/7', stat4Label: 'Lab Access',
+  activeProjectsCount: 1,
 };
 
 export default function HomepagePage() {
@@ -48,7 +50,8 @@ export default function HomepagePage() {
     if (res.ok) { setSaved(true); setTimeout(() => setSaved(false), 2000); }
   };
 
-  const F = ({ label, field, placeholder, multiline }: { label: string; field: keyof HomepageData; placeholder?: string; multiline?: boolean }) => (
+  type StringKeys = { [K in keyof HomepageData]: HomepageData[K] extends string ? K : never }[keyof HomepageData];
+  const F = ({ label, field, placeholder, multiline }: { label: string; field: StringKeys; placeholder?: string; multiline?: boolean }) => (
     <div>
       <label className="label">{label}</label>
       {multiline ? (
@@ -127,7 +130,7 @@ export default function HomepagePage() {
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-4">Trust Badges</h3>
                 <div className="space-y-2">
                   {([1, 2, 3] as const).map((n) => (
-                    <input key={n} className="input-field text-xs" value={form[`heroBadge${n}` as keyof HomepageData]} onChange={(e) => setForm({ ...form, [`heroBadge${n}`]: e.target.value })} placeholder={`Badge ${n}`} />
+                    <input key={n} className="input-field text-xs" value={form[`heroBadge${n}` as keyof HomepageData] as string} onChange={(e) => setForm({ ...form, [`heroBadge${n}`]: e.target.value })} placeholder={`Badge ${n}`} />
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
@@ -135,6 +138,35 @@ export default function HomepagePage() {
                     <span key={i} className="font-mono text-[10px] uppercase tracking-wider text-text-secondary bg-surface px-2 py-0.5 rounded-full border border-border">{b}</span>
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Laboratory Metrics */}
+          <div className="form-section mt-6">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-4">Laboratory Metrics</h3>
+            <p className="text-xs text-text-muted mb-4">Controls the live metrics strip shown on the public site.</p>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 bg-surface-alt border border-border rounded-lg px-4 py-3">
+                <span className="text-sm text-text-secondary font-mono uppercase tracking-wide w-32">Active Projects</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, activeProjectsCount: Math.max(0, form.activeProjectsCount - 1) })}
+                    className="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center text-text-secondary hover:bg-primary/10 hover:border-primary hover:text-primary transition-colors font-bold text-lg leading-none"
+                  >
+                    −
+                  </button>
+                  <span className="w-12 text-center text-2xl font-bold tabular-nums">{form.activeProjectsCount}</span>
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, activeProjectsCount: form.activeProjectsCount + 1 })}
+                    className="w-8 h-8 rounded-md bg-surface border border-border flex items-center justify-center text-text-secondary hover:bg-primary/10 hover:border-primary hover:text-primary transition-colors font-bold text-lg leading-none"
+                  >
+                    +
+                  </button>
+                </div>
+                <span className="text-[10px] font-mono text-[#4F6DF5] ml-2">🌍 LIVE STATUS</span>
               </div>
             </div>
           </div>

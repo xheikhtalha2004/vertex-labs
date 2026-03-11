@@ -57,8 +57,9 @@ model HomepageSettings {
   stat3Label    String   @default("Cost Avoided")
   stat4Value    String   @default("24/7")
   stat4Label    String   @default("Lab Access")
-  trusteeLogos  String[] @default(["MIT", "SIEMENS", "Stanford", "P&G", "Caltech", "HITACHI"])
-  updatedAt     DateTime @updatedAt
+  trusteeLogos         String[] @default(["MIT", "SIEMENS", "Stanford", "P&G", "Caltech", "HITACHI"])
+  activeProjectsCount  Int      @default(1)
+  updatedAt            DateTime @updatedAt
 
   @@map("homepage_settings")
 }

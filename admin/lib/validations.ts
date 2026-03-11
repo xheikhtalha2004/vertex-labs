@@ -38,6 +38,7 @@ export const HomepageSettingsSchema = z.object({
   stat4Value: z.string().max(20),
   stat4Label: z.string().max(50),
   trusteeLogos: z.array(z.string()).optional(),
+  activeProjectsCount: z.number().int().min(0).default(1).optional(),
 });
 
 // =====================================================
