@@ -53,7 +53,7 @@
   }
 
   .btn-secondary {
-    @apply bg-surface-alt hover:bg-border text-text-secondary hover:text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 text-sm flex items-center gap-2 border border-border;
+    @apply bg-surfaceAlt hover:bg-border text-text-secondary hover:text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 text-sm flex items-center gap-2 border border-border;
   }
 
   .btn-danger {
@@ -61,7 +61,7 @@
   }
 
   .input-field {
-    @apply w-full bg-surface-alt border border-border rounded-lg px-3 py-2 text-sm text-white placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-all duration-200;
+    @apply w-full bg-surfaceAlt border border-border rounded-lg px-3 py-2 text-sm text-white placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-all duration-200;
   }
 
   .label {
@@ -80,7 +80,7 @@
   .badge-lost { @apply badge bg-danger/15 text-danger border border-danger/20; }
 
   .table-row {
-    @apply border-b border-border hover:bg-surface-alt/50 transition-colors duration-150;
+    @apply border-b border-border hover:bg-surfaceAlt/50 transition-colors duration-150;
   }
 
   .table-cell {
