@@ -28,6 +28,19 @@ import {
   GridBackground,
 } from './components/canvas';
 
+// API / CMS
+import {
+  getHomepageSettings,
+  getProjects,
+  getTestimonials,
+  type HomepageData,
+  type PublicProject,
+  type PublicTestimonial,
+  STATIC_HOMEPAGE,
+  STATIC_PROJECTS,
+  STATIC_TESTIMONIALS,
+} from './lib/adminApi';
+
 // ... existing code ...
 
 // Hooks
@@ -39,41 +52,24 @@ gsap.registerPlugin(ScrollTrigger);
 // DATA
 // ============================================
 
-const caseStudies = [
-  {
-    id: 1,
-    category: 'CFD',
-    title: 'Aerodynamic Optimization: F1 Rear Wing Assembly',
-    description: 'Computational fluid dynamics study to maximize downforce while minimizing drag for a Formula 1 rear wing under race conditions (250+ km/h).',
-    tech: ['OpenFOAM', 'Aerodynamics'],
-    image: '/case_wing.jpg'
-  },
-  {
-    id: 2,
-    category: 'FEA',
-    title: 'Modal Analysis: 3U CubeSAT Structural Integrity',
-    description: 'Static and dynamic stress analysis for a 3U CubeSAT satellite to survive launch vibration profiles (NASA GEVS) and orbital thermal cycling.',
-    tech: ['ANSYS', 'FEA', 'Aerospace'],
-    image: '/case_satellite.jpg'
-  },
-  {
-    id: 3,
-    category: 'Thermal',
-    title: 'Thermal Management: EV Battery Pack Cooling',
-    description: 'Conjugate heat transfer simulation for liquid-cooled battery pack maintaining cell temperatures between 20-35°C under fast charging.',
-    tech: ['COMSOL', 'Thermal', 'Automotive'],
-    image: '/case_battery.jpg'
-  },
-  {
-    id: 4,
-    category: 'Mechanical Design',
-    title: 'Structural Design: Industrial Robotic Arm',
-    description: 'Lightweight manipulator design for 50kg payload with <0.5mm end-effector deflection under dynamic loading.',
-    tech: ['SolidWorks', 'FEA', 'Robotics'],
-    image: '/case_robot.jpg'
-  }
-];
+// Category enum → display name mapping
+const CATEGORY_DISPLAY: Record<string, string> = {
+  CFD: 'CFD',
+  FEA: 'FEA',
+  THERMAL: 'Thermal',
+  MECHANICAL_DESIGN: 'Mechanical Design',
+  ELECTRONICS: 'Electronics',
+  SOFTWARE: 'Software',
+  OTHER: 'Other',
+};
 
+// Fallback images per category (used when a project has no imageUrl)
+const CATEGORY_IMAGE: Record<string, string> = {
+  CFD: '/case_wing.jpg',
+  FEA: '/case_satellite.jpg',
+  THERMAL: '/case_battery.jpg',
+  MECHANICAL_DESIGN: '/case_robot.jpg',
+};
 
 
 const techStack = [
@@ -184,6 +180,9 @@ const Navbar = () => {
 
 function App() {
   const [activeFilter, setActiveFilter] = useState('All');
+  const [homeData, setHomeData] = useState<HomepageData>(STATIC_HOMEPAGE);
+  const [projects, setProjects] = useState<PublicProject[]>(STATIC_PROJECTS);
+  const [testimonials, setTestimonials] = useState<PublicTestimonial[]>(STATIC_TESTIMONIALS);
   const mainRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   // const servicesRef = useRef<HTMLDivElement>(null); // Removed - handled internally
@@ -192,6 +191,15 @@ function App() {
   const stackRef = useRef<HTMLDivElement>(null);
 
   const prefersReducedMotion = useReducedMotion();
+
+  // Fetch live content from CMS
+  useEffect(() => {
+    Promise.all([
+      getHomepageSettings().then(setHomeData),
+      getProjects().then(setProjects),
+      getTestimonials().then((data) => { if (data.length) setTestimonials(data); }),
+    ]);
+  }, []);
 
   // Initialize GSAP animations
   useEffect(() => {
@@ -391,8 +399,8 @@ function App() {
   }, [activeFilter]);
 
   const filteredCases = activeFilter === 'All'
-    ? caseStudies
-    : caseStudies.filter(c => c.category === activeFilter);
+    ? projects
+    : projects.filter(p => p.category === activeFilter);
 
   return (
     <LenisProvider>
@@ -460,10 +468,10 @@ function App() {
             {/* Stats Row */}
             <div className="hero-stats grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-12 lg:mt-8">
               {[
-                { icon: Box, value: '247+', label: 'Projects Shipped' },
-                { icon: Target, value: '99.70%', label: 'Analysis Precision' },
-                { icon: DollarSign, value: '$2.4M+', label: 'Cost Avoided' },
-                { icon: Zap, value: '24/7', label: 'Lab Access' }
+                { icon: Box, value: homeData.stat1Value, label: homeData.stat1Label },
+                { icon: Target, value: homeData.stat2Value, label: homeData.stat2Label },
+                { icon: DollarSign, value: homeData.stat3Value, label: homeData.stat3Label },
+                { icon: Zap, value: homeData.stat4Value, label: homeData.stat4Label },
               ].map((stat, i) => (
                 <div key={i} className="stat-card-item stat-card p-3 sm:p-4">
                   <stat.icon className="w-5 h-5 text-[#4F6DF5]" />
@@ -475,15 +483,11 @@ function App() {
 
             {/* Badges */}
             <div className="flex flex-wrap justify-center gap-3 mt-8">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#A6AFBF] bg-[#0E1118]/60 px-3 py-1 rounded-full border border-[#A6AFBF]/15">
-                ISO 9001:2015
-              </span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#A6AFBF] bg-[#0E1118]/60 px-3 py-1 rounded-full border border-[#A6AFBF]/15">
-                ON-PREMISE LAB
-              </span>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#A6AFBF] bg-[#0E1118]/60 px-3 py-1 rounded-full border border-[#A6AFBF]/15">
-                HPC CLUSTER READY
-              </span>
+              {[homeData.heroBadge1, homeData.heroBadge2, homeData.heroBadge3].filter(Boolean).map((badge, i) => (
+                <span key={i} className="font-mono text-[10px] uppercase tracking-wider text-[#A6AFBF] bg-[#0E1118]/60 px-3 py-1 rounded-full border border-[#A6AFBF]/15">
+                  {badge}
+                </span>
+              ))}
             </div>
           </div>
         </section>
@@ -502,7 +506,7 @@ function App() {
             </p>
 
             <div className="flex flex-wrap justify-center items-center gap-12 lg:gap-16 mb-10">
-              {['MIT', 'SIEMENS', 'Stanford', 'P&G', 'Caltech', 'HITACHI'].map((org, i) => (
+              {(homeData.trusteeLogos?.length ? homeData.trusteeLogos : ['MIT', 'SIEMENS', 'Stanford', 'P&G', 'Caltech', 'HITACHI']).map((org, i) => (
                 <div key={i} className="reveal-item text-2xl lg:text-3xl font-bold text-[#A6AFBF]/40 hover:text-[#A6AFBF]/70 transition-colors">
                   {org}
                 </div>
@@ -542,13 +546,13 @@ function App() {
 
             {/* Filter Chips */}
             <div className="archive-header flex flex-wrap gap-2 mb-8">
-              {['All', 'CFD', 'FEA', 'Thermal', 'Mechanical Design'].map((filter) => (
+              {['All', ...Array.from(new Set(projects.map(p => p.category)))].map((filter) => (
                 <button
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
                   className={`filter-chip ${activeFilter === filter ? 'active' : ''}`}
                 >
-                  {filter}
+                  {filter === 'All' ? 'All' : (CATEGORY_DISPLAY[filter] || filter)}
                 </button>
               ))}
             </div>
@@ -564,8 +568,8 @@ function App() {
                   <div className="flex flex-col md:flex-row">
                     <div className="flex-1 p-6 flex flex-col">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="tag">{study.category}</span>
-                        <span className="font-mono text-[10px] text-[#A6AFBF]">REF: P{study.id}</span>
+                        <span className="tag">{CATEGORY_DISPLAY[study.category] || study.category}</span>
+                        <span className="font-mono text-[10px] text-[#A6AFBF]">REF: P{String(i + 1).padStart(3, '0')}</span>
                       </div>
 
                       <h3 className="text-lg font-semibold mb-2 leading-tight">{study.title}</h3>
@@ -582,8 +586,8 @@ function App() {
 
                     <div className="w-full md:w-[160px] h-[120px] md:h-auto relative overflow-hidden">
                       <img
-                        src={study.image}
-                        alt={study.title}
+                        src={study.imageUrl || CATEGORY_IMAGE[study.category] || '/case_wing.jpg'}
+                        alt={study.imageAlt || study.title}
                         className="absolute inset-0 w-full h-full object-cover opacity-80"
                       />
                       <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#0E1118]/80" />
@@ -633,7 +637,7 @@ function App() {
                 { label: 'Projects Completed', value: '18+' },
                 { label: 'Client Satisfaction', value: '97%' },
                 { label: 'Response SLA', value: '<24 Hours', sub: '⚡ Priority Support' },
-                { label: 'Active Projects', value: '1', sub: '🌍 LIVE STATUS' }
+                { label: 'Active Projects', value: String(homeData.activeProjectsCount ?? 1), sub: '🌍 LIVE STATUS' }
               ].map((item, i) => (
                 <div key={i} className="glass-card px-5 py-4">
                   <div className="text-2xl font-bold">{item.value}</div>
@@ -651,19 +655,29 @@ function App() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Quote */}
               <div className="reveal-item">
-                <div className="text-6xl text-[#4F6DF5]/30 font-serif mb-4">"</div>
-                <blockquote className="text-2xl lg:text-3xl font-medium leading-relaxed mb-6">
-                  Vertex Labs engineered a thermal management solution that reduced our satellite payload temperature variance by <span className="text-gradient">40%</span>. Mission-critical precision.
-                </blockquote>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#4F6DF5]/20 flex items-center justify-center">
-                    <span className="text-[#4F6DF5] font-semibold">SC</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold">Dr. Sarah Chen</div>
-                    <div className="text-sm text-[#A6AFBF]">CTO, AeroSpace Dynamics</div>
-                  </div>
-                </div>
+                {testimonials.slice(0, 1).map((t) => {
+                  const initials = t.authorName.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase();
+                  return (
+                    <div key={t.id}>
+                      <div className="text-6xl text-[#4F6DF5]/30 font-serif mb-4">"</div>
+                      <blockquote className="text-2xl lg:text-3xl font-medium leading-relaxed mb-6">
+                        {t.quote}
+                      </blockquote>
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full bg-[#4F6DF5]/20 flex items-center justify-center overflow-hidden">
+                          {t.authorAvatar
+                            ? <img src={t.authorAvatar} alt={t.authorName} className="w-full h-full object-cover" />
+                            : <span className="text-[#4F6DF5] font-semibold">{initials}</span>
+                          }
+                        </div>
+                        <div>
+                          <div className="font-semibold">{t.authorName}</div>
+                          <div className="text-sm text-[#A6AFBF]">{[t.authorRole, t.authorOrg].filter(Boolean).join(', ')}</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Tech Stack Badges */}
