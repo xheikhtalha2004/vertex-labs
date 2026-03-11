@@ -44,10 +44,19 @@ export default function HomepagePage() {
   }, []);
 
   const handleSave = async () => {
+    console.log('Save clicked, form state:', form);
     setSaving(true);
-    const res = await fetch('/api/admin/homepage', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
-    setSaving(false);
-    if (res.ok) { setSaved(true); setTimeout(() => setSaved(false), 2000); }
+    try {
+      const res = await fetch('/api/admin/homepage', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+      console.log('Response status:', res.status);
+      const data = await res.json();
+      console.log('Response data:', data);
+      setSaving(false);
+      if (res.ok) { setSaved(true); setTimeout(() => setSaved(false), 2000); }
+    } catch (err) {
+      console.error('Save error:', err);
+      setSaving(false);
+    }
   };
 
   type StringKeys = { [K in keyof HomepageData]: HomepageData[K] extends string ? K : never }[keyof HomepageData];
@@ -119,8 +128,8 @@ export default function HomepagePage() {
                   {([1, 2, 3, 4] as const).map((n) => (
                     <div key={n} className="p-3 bg-surface-alt rounded-lg border border-border">
                       <label className="label">Stat {n}</label>
-                      <input className="input-field mb-1.5" value={form[`stat${n}Value` as keyof HomepageData]} onChange={(e) => setForm({ ...form, [`stat${n}Value`]: e.target.value })} placeholder="Value" />
-                      <input className="input-field text-xs" value={form[`stat${n}Label` as keyof HomepageData]} onChange={(e) => setForm({ ...form, [`stat${n}Label`]: e.target.value })} placeholder="Label" />
+                      <input className="input-field mb-1.5" value={String(form[`stat${n}Value` as keyof HomepageData])} onChange={(e) => setForm({ ...form, [`stat${n}Value`]: e.target.value })} placeholder="Value" />
+                      <input className="input-field text-xs" value={String(form[`stat${n}Label` as keyof HomepageData])} onChange={(e) => setForm({ ...form, [`stat${n}Label`]: e.target.value })} placeholder="Label" />
                     </div>
                   ))}
                 </div>
@@ -131,7 +140,7 @@ export default function HomepagePage() {
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-4">Trust Badges</h3>
                 <div className="space-y-2">
                   {([1, 2, 3] as const).map((n) => (
-                    <input key={n} className="input-field text-xs" value={form[`heroBadge${n}` as keyof HomepageData] as string} onChange={(e) => setForm({ ...form, [`heroBadge${n}`]: e.target.value })} placeholder={`Badge ${n}`} />
+                    <input key={n} className="input-field text-xs" value={String(form[`heroBadge${n}` as keyof HomepageData])} onChange={(e) => setForm({ ...form, [`heroBadge${n}`]: e.target.value })} placeholder={`Badge ${n}`} />
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
