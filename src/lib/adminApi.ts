@@ -108,7 +108,7 @@ export interface HomepageData {
   activeProjectsCount?: number;
 }
 
-const STATIC_HOMEPAGE: HomepageData = {
+export const STATIC_HOMEPAGE: HomepageData = {
   heroHeadline: 'Engineering Solvency at Scale.',
   heroHighlight: 'Solvency',
   heroSubcopy: 'We don\'t "make things pretty." We engineer outcomes.',
