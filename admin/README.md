@@ -1,7 +1,7 @@
 # Vertex Labs Admin Panel
 
 Secure, full-stack Admin CMS + CRM for the Vertex Engineering Labs portfolio website.
-test
+test2
 ## Tech Stack
 
 | Layer | Technology |
